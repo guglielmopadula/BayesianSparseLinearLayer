@@ -1,1 +1,1 @@
-This repository contains a minimal code for training a Bayesian Neural Network using [Torch Sparse](https://github.com/rusty1s/pytorch_sparse). It takes inspiration from [TorchBNN](https://github.com/Harry24k/bayesian-neural-network-pytorch).
+This repository contains a minimal code for training a Bayesian Neural Graph Network using [Torch Sparse](https://github.com/rusty1s/pytorch_sparse). It takes inspiration from [TorchBNN](https://github.com/Harry24k/bayesian-neural-network-pytorch).
