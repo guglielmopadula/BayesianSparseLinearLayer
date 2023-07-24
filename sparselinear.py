@@ -7,18 +7,34 @@ import torch_sparse
 from torch.nn import functional as F
 
 
+def adjust_indices(indices,arr_size1,arr_size2):
+    new_indices=[]
+    indicesT=indices.T
+    for t in indicesT:
+        for i in range(arr_size1):
+            for j in range(arr_size2):
+                new_indices.append([(t[0]*arr_size2+j).item(),(t[1]*arr_size1+i).item()])
+    return torch.tensor(new_indices).T
+
+
+
+
 class SparseLinear(nn.Module):
-    def __init__(self,size1,size2,indices):
+    def __init__(self,graph_size1,graph_size2,arr_size1,arr_size2,indices):
         super().__init__()
-        self.indices=indices
-        self.size1=size1
-        self.size2=size2
-        self.values=(torch.ones(len(indices.T)))
-        self.values.uniform_(-1/len(indices),1/len(indices))
+        self.indices=adjust_indices(indices,arr_size1,arr_size2)
+        self.graph_size1=graph_size1
+        self.graph_size2=graph_size2
+        self.arr_size1=arr_size1
+        self.arr_size2=arr_size2
+        self.size1=graph_size1*arr_size1
+        self.size2=graph_size2*arr_size2
+        self.values=(torch.ones(len(self.indices.T)))
+        self.values.uniform_(-1/len(self.indices),1/len(self.indices))
         torch.nn.init.uniform_(self.values)
         self.values=nn.Parameter(self.values)
-        self.b=(torch.zeros(size2))
-        self.b.uniform_(-1/len(indices),1/len(indices))
+        self.b=(torch.zeros(self.size2))
+        self.b.uniform_(-1/len(self.indices),1/len(self.indices))
         self.b=nn.Parameter(self.b)
 
     def forward(self,x):
@@ -37,14 +53,14 @@ findex2=torch.tensor([[0,1,2,3,4,5,6],[0,0,0,1,2,2,2]])
 class SAE(nn.Module):
     def __init__(self):
         super().__init__()
-        self.slin1=SparseLinear(7,3,index1)
+        self.slin1=SparseLinear(7,3,1,2,index1)
         #self.lin1=nn.Linear(3,3)
         #self.lin2=nn.Linear(1,1)
         #self.lin3=nn.Linear(1,1)
         #self.lin4=nn.Linear(3,3)
-        self.slin2=SparseLinear(3,1,index2)
-        self.slin3=SparseLinear(1,3,findex1)
-        self.slin4=SparseLinear(3,7,findex2)
+        self.slin2=SparseLinear(3,1,2,1,index2)
+        self.slin3=SparseLinear(1,3,1,1,findex1)
+        self.slin4=SparseLinear(3,7,1,1,findex2)
     def forward(self,x):
         x=x.unsqueeze(-1)
         x=self.slin1(x)
