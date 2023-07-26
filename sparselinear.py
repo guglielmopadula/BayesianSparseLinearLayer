@@ -5,7 +5,7 @@ import pytorch_lightning
 from tqdm import trange
 import torch_sparse
 from torch.nn import functional as F
-
+from ptot.ptot import Normal
 
 def adjust_indices(indices,arr_size1,arr_size2):
     new_indices=[]
@@ -75,6 +75,8 @@ class BayesianSparseLinear(nn.Module):
         kl=kl+torch.sum(self.b_log_var+(1+(self.b_mean**2))/(2*torch.exp(self.b_log_var)**2)-0.5)
         kl=0
         return x,self.alpha*kl
+
+
 
 
 if __name__ == "__main__":    
@@ -155,7 +157,7 @@ if __name__ == "__main__":
             x=x.squeeze(-1)
             return x,kl_tot
 
-    sae=BSAE()
+
 
     x=torch.rand(100)
     y=torch.zeros(100,3)
