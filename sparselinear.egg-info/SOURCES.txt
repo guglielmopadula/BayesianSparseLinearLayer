@@ -1,0 +1,10 @@
+README.md
+setup.py
+sparselinear/__init__.py
+sparselinear/sparselinear.py
+sparselinear.egg-info/PKG-INFO
+sparselinear.egg-info/SOURCES.txt
+sparselinear.egg-info/dependency_links.txt
+sparselinear.egg-info/not-zip-safe
+sparselinear.egg-info/requires.txt
+sparselinear.egg-info/top_level.txt

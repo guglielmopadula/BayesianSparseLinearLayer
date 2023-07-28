@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: sparselinear
+Version: 0
+Summary: Bayesian Sparse Linear Layers
+Home-page: https://github.com/gpadula/BayesianSparseLinear
+Author: Guglielmo Padula
+Author-email: gpadula@sissa.it
+License: MIT
+Keywords: sparsity bayes
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Mathematics
